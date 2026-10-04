@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encuesta inicial | Equipo HB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--fg:#fff;--accent:#D62222;--accent-hover:#B81D1D;--accent-active:#961717;--text-muted:#9a9a9a;--text-faint:#6b6b6b;--hairline:#1e1e1e;--border-input:#3d3d3d;--btn-disabled-bg:#262626;--btn-disabled-fg:#5c5c5c;--font-display:'Archivo',sans-serif;--font-body:'Manrope',sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-weight:400}
+button,input,textarea{font-family:var(--font-body);border-radius:0}
+#hb-survey{min-height:100vh;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-weight:400;display:flex;flex-direction:column;align-items:center}
+.hb-wrap{width:100%;max-width:560px;min-height:100vh;display:flex;flex-direction:column;padding:28px 24px 40px}
+.hb-fade{animation:hbFadeIn 200ms ease-out}
+@keyframes hbFadeIn{from{opacity:0}to{opacity:1}}
+.hb-kicker{font-size:12px;font-weight:600;letter-spacing:.28em;color:var(--accent);text-transform:uppercase}
+.hb-h1{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:44px;line-height:1.05;letter-spacing:-.02em;margin:0}
+.hb-h1 span{color:var(--accent)}
+.hb-p{margin:0;font-size:16px;line-height:1.65;color:var(--text-muted)}
+.hb-btn{display:block;width:100%;background:var(--accent);color:#fff;border:1px solid var(--accent);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:13px 22px;cursor:pointer;text-align:center;text-decoration:none;transition:background 160ms ease-out}
+.hb-btn:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.hb-btn:active{background:var(--accent-active);border-color:var(--accent-active)}
+.hb-btn:disabled{background:var(--btn-disabled-bg);border-color:var(--btn-disabled-bg);color:var(--btn-disabled-fg);cursor:not-allowed}
+.hb-btn-sec{background:transparent;border:1px solid var(--border-input);color:var(--fg);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:12px 21px;cursor:pointer;transition:border-color 160ms ease-out}
+.hb-btn-sec:hover{border-color:var(--fg)}
+.hb-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.hb-step{font-size:11px;font-weight:600;letter-spacing:.2em;color:var(--text-faint);text-transform:uppercase}
+.hb-sec{font-size:11px;color:var(--text-faint)}
+.hb-bar{height:1px;background:var(--hairline);width:100%}
+.hb-bar>div{height:1px;background:var(--accent);transition:width 180ms ease-out}
+.hb-q{display:flex;flex-direction:column;gap:12px}
+.hb-qt{font-size:20px;font-weight:600;line-height:1.35;margin:0}
+.hb-multi .hb-qt{font-size:18px}
+.hb-qh{white-space:pre-line;font-size:13px;line-height:1.6;color:var(--text-muted);margin:0}
+.hb-field{display:block;width:100%;background:transparent;border:1px solid var(--border-input);padding:13px 14px;font-size:14px;color:var(--fg);outline:none;transition:border-color 160ms ease-out}
+.hb-field:focus{border-color:var(--fg)}
+.hb-field.err{border-color:var(--accent)}
+textarea.hb-field{min-height:120px;resize:vertical;line-height:1.5}
+.hb-field::placeholder{color:var(--text-faint)}
+input.hb-field[type=number]{-moz-appearance:textfield}
+input.hb-field[type=number]::-webkit-outer-spin-button,input.hb-field[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.hb-opt:focus-visible,.hb-btn:focus-visible,.hb-btn-sec:focus-visible{outline:1px solid var(--fg);outline-offset:2px}
+.hb-opts{display:flex;flex-direction:column;gap:8px}
+.hb-opt{text-align:left;padding:13px 14px;background:transparent;border:1px solid var(--border-input);color:var(--fg);font-size:14px;line-height:1.45;cursor:pointer;transition:background 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}
+.hb-opt.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+.hb-scale{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.hb-scale .hb-opt{text-align:center;padding:12px 0}
+.hb-ends{display:flex;justify-content:space-between;gap:16px;font-size:12px;color:var(--text-faint)}
+.hb-ex{border-left:1px solid var(--border-input);padding:2px 0 2px 14px;display:flex;flex-direction:column;gap:8px}
+.hb-exl{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)}
+.hb-ex p{margin:0 0 8px;font-size:13px;line-height:1.6;color:var(--text-muted);white-space:pre-line}
+.hb-err{font-size:12px;color:var(--accent);font-weight:500;margin:0}
+.hb-img{display:block;width:100%;height:auto;border:1px solid var(--hairline)}
+.hb-nav{margin-top:auto;display:flex;gap:12px;padding-top:12px}
+.hb-nav .hb-btn{flex:1}
+.hb-suberr{font-size:13px;color:var(--accent);font-weight:500;border-top:1px solid var(--hairline);padding-top:16px;margin:0}
+.hb-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.55;color:var(--text-muted)}
+.hb-list li:before{content:"— ";color:var(--accent)}
+@media (max-width:420px){.hb-qt{font-size:19px}.hb-scale{gap:4px}}
+</style>
+</head>
+<body>
+<div id="hb-survey"><div class="hb-wrap" id="hb-root"></div></div>
+<script>
+/* Pega aquí la URL de la aplicación web de Apps Script (termina en /exec). */
+const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbwpO6Zbeg_8BYqIUJcxMU6eh0aqMhFhRQ5AcaPXP4oM-RONRLsTHIHMTH28Wb3vN0R_tw/exec';
+/* Navegación de revisión (flechas arriba). Poner en false antes de publicar. */
+const DEV_NAV = true;
+const WEBSITE_URL = 'https://app.equipohb.com';
+
+const QUESTIONS = /*QUESTIONS*/[];
+const STEPS = /*STEPS*/[];
+const IMGS = /*IMGS*/{};
+const LOGO = '__LOGO__';
+
+const byN = {}; QUESTIONS.forEach(q => byN[q.n] = q);
+const state = { phase: 'intro', step: 0, a: {}, errors: {}, submitting: false, submitError: '' };
+const root = document.getElementById('hb-root');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let lastKey = '';
+function render(focus) {
+  if (state.phase === 'intro') root.innerHTML = introHtml();
+  else if (state.phase === 'done') root.innerHTML = doneHtml();
+  else root.innerHTML = stepHtml();
+  const key = state.phase + ':' + state.step;
+  if (key !== lastKey) { lastKey = key; document.getElementById('hb-survey').scrollIntoView({ block: 'start' }); }
+  const firstErr = root.querySelector('.hb-err, .hb-suberr');
+  if (firstErr) firstErr.scrollIntoView({ block: 'center' });
+  else if (focus !== false && state.phase === 'question') {
+    const f = root.querySelector('input.hb-field, textarea.hb-field');
+    if (f) f.focus({ preventScroll: true });
+  }
+}
+
+function introHtml() {
+  return `<div class="hb-fade" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px">
+    <div class="hb-kicker">— Encuesta inicial</div>
+    <h1 class="hb-h1">Datos para tu protocolo<span>.</span></h1>
+    <p class="hb-p" style="max-width:440px">Responde con precisión: cuanto más específico seas, más preciso será el plan.</p>
+    <div style="font-size:12px;color:var(--text-faint);letter-spacing:.04em">Tiempo estimado: 15-20 minutos. Hazla sin interrupciones.</div>
+    <div><button class="hb-btn" data-act="start">Iniciar</button></div>
+  </div>`;
+}
+
+function qHtml(q, multi) {
+  const err = state.errors[q.n];
+  let h = `<div class="hb-q"><p class="hb-qt">${esc(q.q)}</p>`;
+  if (q.h) h += `<p class="hb-qh">${esc(q.h)}</p>`;
+  if (q.ex) h += `<div class="hb-ex"><div class="hb-exl">— Mal ejemplo</div><p>${esc(q.ex.mal)}</p><div class="hb-exl" style="color:var(--fg)">— Buen ejemplo</div><p>${esc(q.ex.bien)}</p></div>`;
+  if (q.img) h += `<img class="hb-img" src="${IMGS[q.img]}" alt="Ejemplo"${q.img === 'q71' ? ' style="max-width:300px;margin:0 auto"' : ''}>`;
+  if (q.lista) h += `<ul class="hb-list">${q.lista.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  const v = state.a[q.n];
+  if (q.t === 'r' || q.t === 'c') {
+    h += `<div class="hb-opts">` + q.o.map((o, i) => {
+      const sel = q.t === 'c' ? (v || []).includes(o) : v === o;
+      return `<button type="button" class="hb-opt${sel ? ' sel' : ''}" data-q="${q.n}" data-i="${i}">${esc(o)}</button>`;
+    }).join('') + `</div>`;
+  } else if (q.t === 'n') {
+    h += `<div class="hb-scale">` + [1,2,3,4,5,6,7,8,9,10].map(i =>
+      `<button type="button" class="hb-opt${v === String(i) ? ' sel' : ''}" data-q="${q.n}" data-scale="${i}">${i}</button>`).join('') + `</div>`;
+    if (q.o) h += `<div class="hb-ends"><span>${esc(q.o[0])}</span><span style="text-align:right">${esc(q.o[1])}</span></div>`;
+  } else if (q.t === 'l' || q.t === 'o') {
+    h += `<textarea class="hb-field${err ? ' err' : ''}" data-f="${q.n}" aria-label="${esc(q.q)}">${esc(v || '')}</textarea>`;
+  } else if (q.t !== 'i') {
+    const type = q.t === 'e' ? 'email' : q.t === 'p' ? 'tel' : q.t === 'a' ? 'number' : 'text';
+    const extra = q.t === 'a' ? ' inputmode="numeric" min="0"' : q.t === 'e' ? ' autocomplete="email" placeholder="tucorreo@gmail.com"' : q.t === 'p' ? ' autocomplete="tel" placeholder="+56 9 1234 5678"' : '';
+    h += `<input class="hb-field${err ? ' err' : ''}" type="${type}"${extra} data-f="${q.n}" aria-label="${esc(q.q)}" value="${esc(v || '')}">`;
+  }
+  if (err) h += `<p class="hb-err">— ${esc(err)}</p>`;
+  return h + `</div>`;
+}
+
+function stepHtml() {
+  const s = STEPS[state.step], total = STEPS.length, last = state.step === total - 1;
+  const multi = s.qs.length > 1;
+  return `<div class="hb-fade" style="display:flex;flex-direction:column;gap:28px;flex:1">
+    <div><div class="hb-progress-top"><div class="hb-step">Paso ${state.step + 1} de ${total}</div><div class="hb-sec">${esc(s.sec)}</div></div>
+    <div class="hb-bar"><div style="width:${Math.round((state.step + 1) / total * 100)}%"></div></div></div>
+    <div class="${multi ? 'hb-multi' : ''}" style="display:flex;flex-direction:column;gap:${multi ? 32 : 22}px">${s.qs.map(n => qHtml(byN[n], multi)).join('')}</div>
+    ${state.submitError ? `<p class="hb-suberr">— ${esc(state.submitError)}</p>` : ''}
+    <div class="hb-nav">
+      ${state.step > 0 ? '<button type="button" class="hb-btn-sec" data-act="back">Atrás</button>' : ''}
+      <button type="button" class="hb-btn" data-act="${last ? 'submit' : 'next'}"${state.submitting ? ' disabled' : ''}>${last ? (state.submitting ? 'Enviando…' : 'Enviar') : 'Continuar'}</button>
+    </div>
+  </div>`;
+}
+
+function doneHtml() {
+  return `<div class="hb-fade" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:24px">
+    <div class="hb-kicker">— Recibido</div>
+    <h1 class="hb-h1" style="font-size:40px">Encuesta recibida<span>.</span></h1>
+    <p class="hb-p">Tengo tus datos. En 24-48 horas tu protocolo estará listo.</p>
+    <p class="hb-p" style="font-size:14px">Envíame por WhatsApp:</p>
+    <ul class="hb-list"><li>Fotos y video de tu implementación deportiva</li><li>Tus mediciones corporales, si no las dejaste aquí</li><li>Las 6 fotos de tu estado físico</li></ul>
+    <a class="hb-btn" href="${WEBSITE_URL}" target="_blank" rel="noopener">Acceder a App Equipo HB</a>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-top:40px;border-top:1px solid var(--hairline)">
+    <img src="${LOGO}" alt="Equipo HB" style="height:28px;width:auto">
+    <div style="font-size:11px;letter-spacing:.1em;color:var(--text-faint)">equipohb.com</div>
+  </div>`;
+}
+
+function validate(q) {
+  if (q.t === 'i' || q.t === 'o') return '';
+  const v = state.a[q.n];
+  if (q.t === 'c') return (v && v.length) ? '' : 'Selecciona al menos una.';
+  if (q.t === 'r') {
+    if (!v) return 'Selecciona una opción.';
+    return '';
+  }
+  if (q.t === 'n') return v ? '' : 'Selecciona un valor del 1 al 10.';
+  const s = String(v || '').trim();
+  if (!s) return 'Campo obligatorio.';
+  if (q.k === 'Peso' && !/\d/.test(s)) return 'Indica tu peso.';
+  if (q.t === 'e' && !/^[^\s@]+@(gmail|googlemail)\.com$/i.test(s)) return 'Debe ser un correo Gmail.';
+  if (q.t === 'p' && s.replace(/\D/g, '').length < 8) return 'Número inválido.';
+  if (q.t === 'a' && !(Number(s) > 0 && Number(s) < 120)) return 'Edad inválida.';
+  return '';
+}
+
+function validateStep() {
+  state.errors = {};
+  STEPS[state.step].qs.forEach(n => { const e = validate(byN[n]); if (e) state.errors[n] = e; });
+  return !Object.keys(state.errors).length;
+}
+
+function buildPayload() {
+  const p = {};
+  QUESTIONS.forEach(q => {
+    if (!q.k) return;
+    let v = state.a[q.n];
+    if (q.t === 'c') v = (v || []).join(', ');
+    else v = String(v || '').trim();
+    p[q.k] = v;
+  });
+  p.enviadoEn = new Date().toISOString();
+  return p;
+}
+
+async function submit() {
+  if (state.submitting) return;
+  if (!validateStep()) { render(false); return; }
+  state.submitting = true; state.submitError = ''; render(false);
+  try {
+    if (!ENDPOINT_URL) throw new Error('sin endpoint');
+    const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 30000);
+    try {
+      await fetch(ENDPOINT_URL, { method: 'POST', mode: 'no-cors', signal: ctl.signal, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(buildPayload()) });
+    } finally { clearTimeout(to); }
+    state.phase = 'done'; state.submitting = false; render();
+  } catch (e) {
+    state.submitting = false;
+    state.submitError = 'No se pudo enviar. Revisa tu conexión y reintenta.';
+    render(false);
+  }
+}
+
+root.addEventListener('click', e => {
+  const b = e.target.closest('button, a'); if (!b) return;
+  const act = b.dataset.act;
+  if (act === 'start') { state.phase = 'question'; state.step = 0; render(); }
+  else if (act === 'next') { if (validateStep()) { state.step++; state.submitError = ''; render(); } else render(false); }
+  else if (act === 'back') { state.errors = {}; state.submitError = ''; state.step--; render(); }
+  else if (act === 'submit') submit();
+  else if (b.dataset.q) {
+    const q = byN[b.dataset.q]; delete state.errors[q.n];
+    if (b.dataset.scale) state.a[q.n] = b.dataset.scale;
+    else if (q.t === 'c') {
+      const cur = state.a[q.n] || [], o = q.o[b.dataset.i];
+      state.a[q.n] = cur.includes(o) ? cur.filter(x => x !== o) : cur.concat(o);
+    } else state.a[q.n] = q.o[b.dataset.i];
+    render(false);
+  }
+});
+
+root.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.f) { state.a[t.dataset.f] = t.value; delete state.errors[t.dataset.f]; t.classList.remove('err'); const m = t.parentNode.querySelector('.hb-err'); if (m) m.remove(); }
+});
+
+root.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.tagName === 'INPUT' && state.phase === 'question' && state.step < STEPS.length - 1) {
+    e.preventDefault();
+    const fields = [...root.querySelectorAll('input.hb-field, textarea.hb-field')], i = fields.indexOf(e.target);
+    if (i >= 0 && i < fields.length - 1) { fields[i + 1].focus(); return; }
+    if (validateStep()) { state.step++; state.submitError = ''; render(); } else render(false);
+  }
+});
+
+render();
+
+if (DEV_NAV) {
+  const bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99;display:flex;justify-content:center;gap:8px;padding:6px;background:#151515;border-bottom:1px solid #3d3d3d';
+  bar.innerHTML = '<button id="dv-p" style="background:transparent;border:1px solid #3d3d3d;color:#fff;padding:4px 14px;cursor:pointer">&larr;</button><span id="dv-i" style="color:#9a9a9a;font-size:11px;align-self:center;min-width:90px;text-align:center"></span><button id="dv-n" style="background:transparent;border:1px solid #3d3d3d;color:#fff;padding:4px 14px;cursor:pointer">&rarr;</button>';
+  document.body.appendChild(bar); document.body.style.paddingTop = '40px';
+  const pos = () => state.phase === 'intro' ? -1 : state.phase === 'done' ? STEPS.length : state.step;
+  const go = d => {
+    const p = Math.max(-1, Math.min(STEPS.length, pos() + d));
+    state.errors = {}; state.submitError = '';
+    if (p < 0) state.phase = 'intro'; else if (p >= STEPS.length) state.phase = 'done'; else { state.phase = 'question'; state.step = p; }
+    render(false); label();
+  };
+  const label = () => { const p = pos(); document.getElementById('dv-i').textContent = p < 0 ? 'portada' : p >= STEPS.length ? 'cierre' : 'paso ' + (p + 1) + '/' + STEPS.length; };
+  document.getElementById('dv-p').onclick = () => go(-1);
+  document.getElementById('dv-n').onclick = () => go(1);
+  root.addEventListener('click', () => setTimeout(label, 0));
+  label();
+}
+</script>
+</body>
+</html>
