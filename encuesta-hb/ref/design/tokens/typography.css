@@ -1,0 +1,23 @@
+:root{
+--font-display:'Archivo',sans-serif; /* peso 800, MAYÚSCULAS, tracking negativo */
+--font-body:'Manrope',sans-serif; /* 400–600: cuerpo, UI, datos */
+/* Escala */
+--type-display-size:76px;--type-display-lh:0.95;--type-display-ls:-0.03em;
+--type-h1-size:44px;--type-h1-lh:1.05;--type-h1-ls:-0.02em;
+--type-h2-size:26px;--type-h2-lh:1.15;--type-h2-ls:-0.01em;
+--type-h3-size:21px;--type-h3-lh:1.1;--type-h3-ls:-0.01em;
+--type-body-size:16px;--type-body-lh:1.65;
+--type-caption-size:12px;
+--type-kicker-size:12px;--type-kicker-ls:0.28em;
+--type-label-size:10px;--type-label-ls:0.2em;
+--type-ghost-size:140px;--type-ghost-ls:-0.04em;
+}
+.hb-display,.hb-h1,.hb-h2,.hb-h3{font-family:var(--font-display);font-weight:800;text-transform:uppercase;margin:0}
+.hb-display{font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls)}
+.hb-h1{font-size:var(--type-h1-size);line-height:var(--type-h1-lh);letter-spacing:var(--type-h1-ls)}
+.hb-h2{font-size:var(--type-h2-size);line-height:var(--type-h2-lh);letter-spacing:var(--type-h2-ls)}
+.hb-h3{font-size:var(--type-h3-size);line-height:var(--type-h3-lh);letter-spacing:var(--type-h3-ls)}
+.hb-body{font-family:var(--font-body);font-weight:400;font-size:var(--type-body-size);line-height:var(--type-body-lh)}
+.hb-caption{font-family:var(--font-body);font-weight:500;font-size:var(--type-caption-size);color:var(--text-muted)}
+.hb-kicker{font-family:var(--font-body);font-weight:600;font-size:var(--type-kicker-size);letter-spacing:var(--type-kicker-ls);text-transform:uppercase;color:var(--accent)}
+.hb-label{font-family:var(--font-body);font-weight:600;font-size:var(--type-label-size);letter-spacing:var(--type-label-ls);text-transform:uppercase;color:var(--text-faint)}

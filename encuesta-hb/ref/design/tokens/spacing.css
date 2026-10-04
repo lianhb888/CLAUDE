@@ -1,0 +1,8 @@
+:root{
+/* Rejilla de 8 px — márgenes generosos */
+--space-1:8px;--space-2:16px;--space-3:24px;--space-4:32px;--space-5:40px;--space-6:48px;--space-8:64px;--space-11:88px;
+--page-margin:88px;
+--radius:0; /* sin esquinas redondeadas, nunca */
+--shadow:none; /* sin sombras */
+--hairline-w:1px;
+}

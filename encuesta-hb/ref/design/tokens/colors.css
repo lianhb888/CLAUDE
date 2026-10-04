@@ -1,0 +1,57 @@
+:root{
+/* Base — tema oscuro (por defecto) */
+--negro-base:#080808;
+--blanco:#ffffff;
+--gris-oscuro:#9a9a9a;
+/* Variante clara */
+--papel-frio:#F5F5F3;
+--tinta:#0A0A0A;
+--gris-claro:#6B6B6B;
+/* Acento — máx. 5% de la superficie; nunca fondo de sección */
+--rojo:#D62222;
+--rojo-hover:#B81D1D;
+--rojo-activo:#961717;
+/* Semánticos — tema oscuro */
+--bg:var(--negro-base);
+--fg:var(--blanco);
+--text-muted:#9a9a9a;
+--text-faint:#6b6b6b;
+--hairline:#1e1e1e;
+--hairline-strong:#242424;
+--border-input:#3d3d3d;
+--ghost:#151515;
+--surface-card:transparent;
+--border-card:#1e1e1e;
+--btn-disabled-bg:#262626;
+--btn-disabled-fg:#5c5c5c;
+--btn-sec-border:#3d3d3d;
+--btn-sec-border-disabled:#242424;
+--btn-sec-fg-disabled:#4a4a4a;
+--input-bg:transparent;
+--table-head-border:#3d3d3d;
+--accent:var(--rojo);
+--accent-hover:var(--rojo-hover);
+--accent-active:var(--rojo-activo);
+/* Estado \u2014 cumplimiento/progreso, distinto del rojo de marca (CTA) */
+--exito:#2FAE66;
+--alerta:#FF7A7A;
+}
+[data-theme="light"]{
+--bg:var(--papel-frio);
+--fg:var(--tinta);
+--text-muted:#6b6b6b;
+--text-faint:#6b6b6b;
+--hairline:#dddedb;
+--hairline-strong:#c4c4c0;
+--border-input:#c4c4c0;
+--ghost:#e7e7e4;
+--surface-card:#ffffff;
+--border-card:#dddedb;
+--btn-disabled-bg:#e4e4e1;
+--btn-disabled-fg:#a3a3a0;
+--btn-sec-border:#c4c4c0;
+--btn-sec-border-disabled:#dddedb;
+--btn-sec-fg-disabled:#b0b0ad;
+--input-bg:#ffffff;
+--table-head-border:#b9b9b5;
+}

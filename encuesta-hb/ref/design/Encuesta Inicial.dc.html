@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#080808"/><text x="30" y="110" font-family="sans-serif" font-size="46" font-weight="800" fill="#ffffff">HB</text><rect x="30" y="130" width="60" height="4" fill="#D62222"/></svg></template>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/tokens/base.css">
+  <link rel="stylesheet" href="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/styles.css">
+  <script src="_ds/equipo-hb-design-system-1c896702-821d-4aaf-a6af-701fe388dab9/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:var(--bg);color:var(--fg);}
+    a{color:var(--accent);}
+    a:hover{color:var(--accent-hover);}
+    input::placeholder, textarea::placeholder{color:var(--text-faint);}
+    textarea{resize:vertical;}
+    @keyframes hbFadeIn{from{opacity:0;}to{opacity:1;}}
+    .hb-fade{animation:hbFadeIn 200ms ease-out;}
+  </style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;font-family:var(--font-body);">
+  <div style="width:100%;max-width:560px;min-height:100vh;display:flex;flex-direction:column;padding:28px 24px 40px;box-sizing:border-box;">
+
+    <sc-if value="{{ isIntro }}">
+      <div class="hb-fade" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;">— Encuesta inicial</div>
+        <h1 class="hb-h1" style="margin:0;color:var(--fg);">DATOS PARA TU PLAN<span style="color:var(--accent);">.</span></h1>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:var(--text-muted);max-width:440px;">Antes de empezar, necesitamos tus datos. Esto define tu protocolo de nutrición y entrenamiento. Se completa una sola vez.</p>
+        <div style="font-size:12px;color:var(--text-faint);letter-spacing:0.04em;">Tiempo estimado: 4–5 minutos — 5 secciones</div>
+        <div>
+          <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Button" fullWidth="{{ true }}" onClick="{{ start }}" hint-size="100%,48px">Comenzar</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ false }}">
+      <div class="hb-fade" key="{{ stepNumber }}" style="display:flex;flex-direction:column;gap:28px;flex:1;">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+            <div style="font-size:11px;font-weight:600;letter-spacing:0.2em;color:var(--text-faint);text-transform:uppercase;">Paso {{ stepNumber }} de {{ totalSteps }}</div>
+            <div style="font-size:11px;color:var(--text-faint);">{{ sectionLabel }}</div>
+          </div>
+          <div style="height:1px;background:var(--hairline);width:100%;position:relative;">
+            <div style="height:1px;background:var(--accent);width:{{ progressPct }}%;transition:width 180ms ease-out;"></div>
+          </div>
+        </div>
+
+        <sc-if value="{{ isStep1 }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <h2 class="hb-h2" style="margin:0;">TUS DATOS</h2>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Nombre completo" value="{{ f.nombreCompleto }}" onChange="{{ onChange_nombreCompleto }}" error="{{ errors.nombreCompleto }}" placeholder="Ej. Juan Pérez" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="WhatsApp" value="{{ f.whatsapp }}" onChange="{{ onChange_whatsapp }}" error="{{ errors.whatsapp }}" placeholder="+56 9 1234 5678" type="tel" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Correo" value="{{ f.correo }}" onChange="{{ onChange_correo }}" error="{{ errors.correo }}" placeholder="tu@correo.com" type="email" hint-size="100%,70px"></x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep2 }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <h2 class="hb-h2" style="margin:0;">PERFIL</h2>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Sexo</div>
+              <div style="display:flex;gap:10px;">
+                <sc-for list="{{ sexoOptions }}" as="opt">
+                  <button type="button" onClick="{{ opt.onClick }}" style="flex:1;padding:12px 10px;background:{{ opt.bg }};border:1px solid {{ opt.selected }};color:{{ opt.fg }};font-family:var(--font-body);font-size:14px;cursor:pointer;border-radius:0;transition:background 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out;">{{ opt.value }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ errors.sexo }}"><div style="font-size:12px;color:var(--accent);font-weight:500;margin-top:8px;">— {{ errors.sexo }}</div></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+              <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Edad" value="{{ f.edad }}" onChange="{{ onChange_edad }}" error="{{ errors.edad }}" placeholder="30" type="number" hint-size="100%,70px"></x-import>
+              <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Peso (kg)" value="{{ f.peso }}" onChange="{{ onChange_peso }}" error="{{ errors.peso }}" placeholder="80" type="number" hint-size="100%,70px"></x-import>
+              <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Altura (cm)" value="{{ f.altura }}" onChange="{{ onChange_altura }}" error="{{ errors.altura }}" placeholder="178" type="number" hint-size="100%,70px"></x-import>
+              <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Ocupación" value="{{ f.ocupacion }}" onChange="{{ onChange_ocupacion }}" placeholder="Ingeniero" hint-size="100%,70px"></x-import>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep3 }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <h2 class="hb-h2" style="margin:0;">DÍA A DÍA</h2>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Describe tu rutina diaria</div>
+              <textarea value="{{ f.rutinaDiaria }}" onChange="{{ onChange_rutinaDiaria }}" placeholder="Hora en que despiertas, trabajo, traslados, entrenamiento, descanso…" style="display:block;width:100%;box-sizing:border-box;background:var(--input-bg);border:1px solid var(--border-input);border-radius:0;padding:13px 14px;font-family:var(--font-body);font-size:14px;color:var(--fg);outline:none;min-height:110px;"></textarea>
+            </div>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Horario de trabajo" value="{{ f.horarioTrabajo }}" onChange="{{ onChange_horarioTrabajo }}" placeholder="Ej. 9:00 a 18:00" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Comidas fuera de casa por semana" value="{{ f.comidasFueraCasa }}" onChange="{{ onChange_comidasFueraCasa }}" placeholder="Ej. 3" type="number" hint-size="100%,70px"></x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep4 }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <h2 class="hb-h2" style="margin:0;">ENTRENAMIENTO</h2>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Objetivo principal</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ objetivoOptions }}" as="opt">
+                  <button type="button" onClick="{{ opt.onClick }}" style="text-align:left;padding:13px 14px;background:{{ opt.bg }};border:1px solid {{ opt.selected }};color:{{ opt.fg }};font-family:var(--font-body);font-size:14px;cursor:pointer;border-radius:0;transition:background 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out;">{{ opt.value }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ errors.objetivoPrincipal }}"><div style="font-size:12px;color:var(--accent);font-weight:500;margin-top:8px;">— {{ errors.objetivoPrincipal }}</div></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+              <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Días disponibles/semana" value="{{ f.diasDisponibles }}" onChange="{{ onChange_diasDisponibles }}" error="{{ errors.diasDisponibles }}" placeholder="4" type="number" hint-size="100%,70px"></x-import>
+              <div>
+                <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Dónde entrenas</div>
+                <div style="display:flex;gap:8px;">
+                  <sc-for list="{{ dondeOptions }}" as="opt">
+                    <button type="button" onClick="{{ opt.onClick }}" style="flex:1;padding:12px 6px;font-size:12px;background:{{ opt.bg }};border:1px solid {{ opt.selected }};color:{{ opt.fg }};font-family:var(--font-body);cursor:pointer;border-radius:0;transition:background 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out;">{{ opt.value }}</button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ errors.dondeEntrena }}"><div style="font-size:12px;color:var(--accent);font-weight:500;margin-top:8px;">— {{ errors.dondeEntrena }}</div></sc-if>
+              </div>
+            </div>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Experiencia previa entrenando" value="{{ f.experienciaPrevia }}" onChange="{{ onChange_experienciaPrevia }}" placeholder="Ej. 2 años intermitente" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Lesiones o restricciones" value="{{ f.lesiones }}" onChange="{{ onChange_lesiones }}" placeholder="Ej. ninguna / hombro derecho" hint-size="100%,70px"></x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep5 }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <h2 class="hb-h2" style="margin:0;">NUTRICIÓN</h2>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Alimentos que no consumes" value="{{ f.alimentosNoConsume }}" onChange="{{ onChange_alimentosNoConsume }}" placeholder="Ej. lácteos, cerdo" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Alergias o intolerancias" value="{{ f.alergias }}" onChange="{{ onChange_alergias }}" placeholder="Ej. ninguna" hint-size="100%,70px"></x-import>
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Input" label="Número de comidas al día" value="{{ f.numeroComidas }}" onChange="{{ onChange_numeroComidas }}" error="{{ errors.numeroComidas }}" placeholder="4" type="number" hint-size="100%,70px"></x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ submitError }}">
+          <div style="font-size:13px;color:var(--accent);font-weight:500;border-top:1px solid var(--hairline);padding-top:16px;">— {{ submitError }}</div>
+        </sc-if>
+
+        <div style="margin-top:auto;display:flex;gap:12px;padding-top:12px;">
+          <sc-if value="{{ showBack }}">
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.SecondaryButton" onClick="{{ back }}" hint-size="auto,46px">Atrás</x-import>
+          </sc-if>
+          <sc-if value="{{ isLastStep }}" hint-placeholder-val="{{ false }}">
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Button" fullWidth="{{ true }}" disabled="{{ submitting }}" onClick="{{ submit }}" style="style-flex" hint-size="100%,46px">{{ submitLabel }}</x-import>
+          </sc-if>
+          <sc-if value="{{ isNotLastStep }}" hint-placeholder-val="{{ true }}">
+            <x-import component-from-global-scope="EquipoHBDesignSystem_1c8967.Button" fullWidth="{{ true }}" onClick="{{ next }}" style="style-flex" hint-size="100%,46px">Continuar</x-import>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div class="hb-fade" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:24px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;">— Listo</div>
+        <h1 class="hb-h1" style="margin:0;font-size:40px;">RECIBIDO<span style="color:var(--accent);">.</span></h1>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:var(--text-muted);">Te contactamos por WhatsApp para confirmar el inicio de tu protocolo.</p>
+        <a href="https://app.equipohb.com" target="_blank" rel="noopener" style="display:block;width:100%;box-sizing:border-box;background:var(--accent);color:#ffffff;text-align:center;text-decoration:none;font-family:var(--font-body);font-weight:600;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;padding:13px 22px;">Acceder a App Equipo HB</a>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-top:40px;border-top:1px solid var(--hairline);">
+        <img src="assets/logo-dark.png" alt="Equipo HB" style="height:28px;width:auto;">
+        <div style="font-size:11px;letter-spacing:0.1em;color:var(--text-faint);">equipohb.com</div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ENDPOINT_URL = '';
+
+const SECTIONS = ['Datos', 'Perfil', 'Día a día', 'Entrenamiento', 'Nutrición'];
+
+class Component extends DCLogic {
+  state = {
+    phase: 'intro', // intro | question | done
+    step: 1,
+    submitting: false,
+    submitError: '',
+    errors: {},
+    f: {
+      nombreCompleto: '', whatsapp: '', correo: '',
+      sexo: '', edad: '', peso: '', altura: '', ocupacion: '',
+      rutinaDiaria: '', horarioTrabajo: '', comidasFueraCasa: '',
+      objetivoPrincipal: '', diasDisponibles: '', dondeEntrena: '', experienciaPrevia: '', lesiones: '',
+      alimentosNoConsume: '', alergias: '', numeroComidas: ''
+    }
+  };
+
+  setF(key, val) {
+    this.setState(s => ({ f: { ...s.f, [key]: val }, errors: { ...s.errors, [key]: undefined } }));
+  }
+
+  validateStep(step) {
+    const f = this.state.f;
+    const errors = {};
+    const req = (k, msg) => { if (!String(f[k] || '').trim()) errors[k] = msg; };
+    if (step === 1) {
+      req('nombreCompleto', 'Falta tu nombre completo.');
+      req('whatsapp', 'Falta tu WhatsApp.');
+      if (f.whatsapp && f.whatsapp.replace(/\D/g, '').length < 8) errors.whatsapp = 'Número inválido.';
+      req('correo', 'Falta tu correo.');
+      if (f.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.correo)) errors.correo = 'Correo inválido.';
+    } else if (step === 2) {
+      req('sexo', 'Selecciona una opción.');
+      req('edad', 'Falta tu edad.');
+      req('peso', 'Falta tu peso.');
+      req('altura', 'Falta tu altura.');
+    } else if (step === 4) {
+      req('objetivoPrincipal', 'Selecciona un objetivo.');
+      req('diasDisponibles', 'Falta este dato.');
+      req('dondeEntrena', 'Selecciona una opción.');
+    } else if (step === 5) {
+      req('numeroComidas', 'Falta este dato.');
+    }
+    this.setState({ errors });
+    return Object.keys(errors).length === 0;
+  }
+
+  start = () => this.setState({ phase: 'question', step: 1 });
+
+  next = () => {
+    if (!this.validateStep(this.state.step)) return;
+    this.setState(s => ({ step: s.step + 1 }));
+  };
+
+  back = () => this.setState(s => ({ step: Math.max(1, s.step - 1) }));
+
+  submit = async () => {
+    if (!this.validateStep(5)) return;
+    this.setState({ submitting: true, submitError: '' });
+    const payload = { ...this.state.f, enviadoEn: new Date().toISOString() };
+    try {
+      if (ENDPOINT_URL) {
+        const res = await fetch(ENDPOINT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('bad status');
+      }
+      this.setState({ submitting: false, phase: 'done' });
+    } catch (e) {
+      this.setState({ submitting: false, submitError: 'No pudimos enviar tus datos. Intenta de nuevo.' });
+    }
+  };
+
+  choiceGroup(key, values) {
+    const f = this.state.f;
+    return values.map(value => ({
+      value,
+      selected: f[key] === value ? 'var(--accent);background:var(--accent)' : 'var(--border-input)',
+      onClick: () => this.setF(key, value)
+    }));
+  }
+
+  renderVals() {
+    const { phase, step, f, errors, submitting, submitError } = this.state;
+    const totalSteps = 5;
+    const mkOptions = (key, values) => values.map(value => {
+      const sel = f[key] === value;
+      return {
+        value,
+        selected: sel ? 'var(--accent)' : 'var(--border-input)',
+        bg: sel ? 'var(--accent)' : 'transparent',
+        fg: sel ? '#ffffff' : 'var(--fg)',
+        onClick: () => this.setF(key, value)
+      };
+    });
+
+    return {
+      isIntro: phase === 'intro',
+      isQuestion: phase === 'question',
+      isDone: phase === 'done',
+      start: this.start,
+      stepNumber: step,
+      totalSteps,
+      sectionLabel: SECTIONS[step - 1],
+      progressPct: Math.round((step / totalSteps) * 100),
+      isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4, isStep5: step === 5,
+      f, errors,
+      onChange_nombreCompleto: e => this.setF('nombreCompleto', e.target.value),
+      onChange_whatsapp: e => this.setF('whatsapp', e.target.value),
+      onChange_correo: e => this.setF('correo', e.target.value),
+      onChange_edad: e => this.setF('edad', e.target.value),
+      onChange_peso: e => this.setF('peso', e.target.value),
+      onChange_altura: e => this.setF('altura', e.target.value),
+      onChange_ocupacion: e => this.setF('ocupacion', e.target.value),
+      onChange_rutinaDiaria: e => this.setF('rutinaDiaria', e.target.value),
+      onChange_horarioTrabajo: e => this.setF('horarioTrabajo', e.target.value),
+      onChange_comidasFueraCasa: e => this.setF('comidasFueraCasa', e.target.value),
+      onChange_diasDisponibles: e => this.setF('diasDisponibles', e.target.value),
+      onChange_experienciaPrevia: e => this.setF('experienciaPrevia', e.target.value),
+      onChange_lesiones: e => this.setF('lesiones', e.target.value),
+      onChange_alimentosNoConsume: e => this.setF('alimentosNoConsume', e.target.value),
+      onChange_alergias: e => this.setF('alergias', e.target.value),
+      onChange_numeroComidas: e => this.setF('numeroComidas', e.target.value),
+      sexoOptions: mkOptions('sexo', ['Hombre', 'Mujer']),
+      objetivoOptions: mkOptions('objetivoPrincipal', ['Bajar grasa', 'Ganar músculo', 'Recomposición corporal', 'Rendimiento / fuerza']),
+      dondeOptions: mkOptions('dondeEntrena', ['Gimnasio', 'Casa', 'Ambos']),
+      showBack: step > 1,
+      isLastStep: step === totalSteps,
+      isNotLastStep: step !== totalSteps,
+      submitting,
+      submitLabel: submitting ? 'Enviando…' : 'Enviar',
+      submitError,
+      submit: this.submit,
+      next: this.next,
+      back: this.back
+    };
+  }
+}
+
+</script>
+</body>
+</html>
